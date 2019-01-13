@@ -24,8 +24,11 @@ There are 3 types of tasks:
 * TODO
 * BUG
 * UNDONE
+
 TODO is obligatory work, it must be 100% functional. Normal priority.
+
 BUG is highlighting some bugs that must be taken care of before release. Normal priority.
+
 UNDONE is optional work, should be addressed if there is spare time. Low priority.
 
 ### TODO
@@ -41,7 +44,7 @@ UNDONE is optional work, should be addressed if there is spare time. Low priorit
 * Show entropy in image info
 * Image-Cross Section
 * Image digitalization simulation
-* 
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
