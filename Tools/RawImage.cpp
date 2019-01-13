@@ -282,6 +282,40 @@ void RawImage::compute90Rotation(int direction){
 	resetHistogram();
 }
 
+void RawImage::computeFlip(int direction){
+
+	vector<vector<unsigned char>> matrix;
+
+	matrix.resize(imgSize.GetX());
+
+	for (int i = 0; i < matrix.size(); i++)
+		matrix[i].resize(imgSize.GetY());
+
+	for (int i = 0; i < imgSize.GetX(); i++) {
+		for (int j = 0; j < imgSize.GetY(); j++) {
+			matrix[i][j] = getPixel(wxPoint(i, j));
+		}
+	}
+	if (direction == VERTICAL) {
+		for (int i = 0; i < imgSize.GetX(); i++) {
+			for (int j = 0; j < imgSize.GetY(); j++) {
+				wxPoint p(i, j);
+				setPixel(p, matrix[imgSize.GetX() - 1 - i][j]);
+			}
+		}
+	}
+	else if (direction == HORIZONTAL) {
+		for (int i = 0; i < imgSize.GetX(); i++) {
+			for (int j = 0; j < imgSize.GetY(); j++) {
+				wxPoint p(i, j);
+				setPixel(p, matrix[i][imgSize.GetY() - 1 - j]);
+			}
+		}
+	}
+
+	resetHistogram();
+}
+
 unsigned char RawImage::getPixel(wxPoint p){
 	//Las imágenes en grayscale en wxwidgets son del formato RGBRGBRGB... donde R = G = B -> nivel de gris (0-255)
 	unsigned char red = getPixelR(p);

@@ -487,11 +487,25 @@ void MainWindow::OnMenuImagenDuplicar(wxCommandEvent & event){
 }
 
 void MainWindow::OnMenuImagenTransformarEspejoHorizontal(wxCommandEvent & event){
-	//TODO: Espejo Horizontal
+	bool status = updateLastFocus();
+
+	if (!status) //if status == false then lastFocus == NULL
+		return;
+
+	lastFocus = duplicate(lastFocus);
+	lastFocus->computeFlip(HORIZONTAL);
+	lastFocus->Raise();
 }
 
 void MainWindow::OnMenuImagenTransformarEspejoVertical(wxCommandEvent & event){
-	//TODO: Espejo vertical
+	bool status = updateLastFocus();
+
+	if (!status) //if status == false then lastFocus == NULL
+		return;
+
+	lastFocus = duplicate(lastFocus);
+	lastFocus->computeFlip(VERTICAL);
+	lastFocus->Raise();
 }
 
 void MainWindow::OnMenuImagenTransformarRotarDerecha(wxCommandEvent & event){

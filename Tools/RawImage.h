@@ -29,7 +29,9 @@ enum {
 	H_ABSOLUTE,
 	H_ACCUMULATIVE,
 	LEFT,
-	RIGHT
+	RIGHT,
+	VERTICAL,
+	HORIZONTAL,
 };
 
 using namespace std;
@@ -68,6 +70,7 @@ public:
 	void computeDiference(RawImage* original, RawImage* target);
 	void computeThreshold(unsigned char t);
 	void compute90Rotation(int direction);
+	void computeFlip(int direction);
 
 	unsigned char getPixel(wxPoint p);
 	unsigned char getPixelR(wxPoint p);

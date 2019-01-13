@@ -181,6 +181,10 @@ void ImageFrame::compute90Rotation(int direction){
 	imgPanel->compute90Rotation(direction);
 }
 
+void ImageFrame::computeFlip(int direction){
+	imgPanel->computeFlip(direction);
+}
+
 unsigned char ImageFrame::getBrightness(){
 	return imgPanel->getBrightness();
 }

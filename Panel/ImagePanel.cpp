@@ -164,6 +164,10 @@ void ImagePanel::compute90Rotation(int direction){
 	image->compute90Rotation(direction);
 }
 
+void ImagePanel::computeFlip(int direction){
+	image->computeFlip(direction);
+}
+
 unsigned char ImagePanel::getBrightness(){
 	return image->getBrightness();
 }

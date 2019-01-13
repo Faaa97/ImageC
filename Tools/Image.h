@@ -51,5 +51,6 @@ public:
 	void computeThreshold(unsigned char t);
 
 	void compute90Rotation(int direction);
+	void computeFlip(int direction);
 };
 

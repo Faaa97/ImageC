@@ -143,3 +143,9 @@ void Image::compute90Rotation(int direction){
 
 	refreshBitmap();
 }
+
+void Image::computeFlip(int direction){
+	rawImg->computeFlip(direction);
+
+	refreshBitmap();
+}
