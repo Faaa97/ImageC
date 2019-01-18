@@ -123,7 +123,7 @@ void RawImage::convertToGrayScale(unsigned type){
 
 	resetHistogram();
 }
-//TODO: El histograma no se está computando correctamente para algunas imágenes
+
 long* RawImage::computeHistogram(unsigned t){
 
 	if (histogram[0] == -1) {

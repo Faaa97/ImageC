@@ -30,7 +30,7 @@ class ImagePanel : public wxPanel{
 	void render(wxDC& dc);
 
 public:
-	ImagePanel(wxFrame* parent, wxString file, wxBitmapType format);
+	ImagePanel(wxFrame* parent, wxString file);
 	ImagePanel(wxFrame* parent, const ImagePanel& p);
 	~ImagePanel();
 

@@ -20,7 +20,7 @@
 #include <wx/regex.h>
 #include "../Panel/ImagePanel.h"
 #include "../Tools/LookUpTable.h"
-//TODO: Notificar al padre de que se ha cerrado, para quitarlo de la lista
+
 class ImageFrame : public wxFrame{
 
 	ImagePanel* imgPanel;
@@ -33,7 +33,6 @@ class ImageFrame : public wxFrame{
 	bool modified;
 	wxWindow* parent;
 	void onSetFocus(wxFocusEvent& event);
-	//void OnMouseMoved(wxMouseEvent & event);
 
 	void updateFrame();
 

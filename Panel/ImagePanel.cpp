@@ -46,10 +46,10 @@ void ImagePanel::keyPressed(wxKeyEvent& event) {}
 void ImagePanel::keyReleased(wxKeyEvent& event) {}
 */
 
-ImagePanel::ImagePanel(wxFrame* parent, wxString file, wxBitmapType format):
+ImagePanel::ImagePanel(wxFrame* parent, wxString file):
 	wxPanel(parent){
 	//UNDONE: Verificar que encuentra el fichero
-	image = new Image(file, format);
+	image = new Image(file);
 	this->SetClientSize(image->GetSize());
 	this->parent = parent;
 }

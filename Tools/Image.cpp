@@ -36,8 +36,7 @@ void Image::refreshImage(){
 	img = new wxImage(rawImgSize.GetWidth(), rawImgSize.GetHeight(), NewImgData);
 }
 
-//UNDONE: Usar wxImage::GetType para simplificar el control de las extensiones
-Image::Image(wxString file, wxBitmapType format){
+Image::Image(wxString file){
 	
 	wxInitAllImageHandlers();
 

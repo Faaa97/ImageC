@@ -43,7 +43,7 @@ ImageFrame::ImageFrame(wxFrame* parent, wxString filepath, wxString filename):
 
 	wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
 
-	imgPanel = new ImagePanel(this, filepath, getType(filename));
+	imgPanel = new ImagePanel(this, filepath);
 	sizer->Add(imgPanel, 1, wxEXPAND);
 	
 	SetSizer(sizer);
@@ -193,7 +193,6 @@ void ImageFrame::computeTranspose(){
 	modified = true;
 	updateFrame();
 	this->Refresh();
-	//Update();
 }
 
 unsigned char ImageFrame::getBrightness(){
@@ -205,8 +204,6 @@ unsigned char ImageFrame::getContrast(){
 }
 
 void ImageFrame::updateFrame() {
-	//wxSize panelSize = imgPanel->getImageSize();
-	//panelSize.SetHeight(statusBar->GetBorders().GetHeight() + panelSize.GetHeight());
 	SetClientSize(imgPanel->getImageSize());
 }
 
@@ -225,17 +222,6 @@ wxSize ImageFrame::getImageSize(){
 
 void ImageFrame::OnQuit(wxCloseEvent& event) {
 
-	/*if (event.CanVeto() && modified)
-	{
-		if (wxMessageBox("The file has not been saved... continue closing?",
-			"Please confirm",
-			wxICON_QUESTION | wxYES_NO) != wxYES)
-		{
-			event.Veto();
-			return;
-		}
-	}
-	*/
 	this->parent = NULL;
 	destroyed = true;
 	this->Destroy();

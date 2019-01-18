@@ -28,7 +28,7 @@ class Image{
 	void refreshImage();
 
 public:
-	Image(wxString file, wxBitmapType format);
+	Image(wxString file);
 	Image(const Image& i);
 	~Image();
 
