@@ -50,11 +50,9 @@ ImageFrame::ImageFrame(wxFrame* parent, wxString filepath, wxString filename):
 	
 	SetWindowStyle(wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX));
 
-	wxStatusBar status = CreateStatusBar(3);
+	statusBar = CreateStatusBar(3);
 
-	wxSize panelSize = imgPanel->getImageSize();
-	panelSize.SetHeight(status.GetBorders().GetHeight() + panelSize.GetHeight());
-	SetClientSize(panelSize);
+	updateFrame();
 
 	wxString res = std::to_string(imgPanel->getImageSize().GetWidth()) + "x" + std::to_string(imgPanel->getImageSize().GetHeight());
 
@@ -179,10 +177,23 @@ void ImageFrame::computeThreshold(unsigned char t){
 
 void ImageFrame::compute90Rotation(int direction){
 	imgPanel->compute90Rotation(direction);
+	modified = true;
+	updateFrame();
+	this->Refresh();
 }
 
 void ImageFrame::computeFlip(int direction){
 	imgPanel->computeFlip(direction);
+	modified = true;
+	this->Refresh();
+}
+
+void ImageFrame::computeTranspose(){
+	imgPanel->computeTranspose();
+	modified = true;
+	updateFrame();
+	this->Refresh();
+	//Update();
 }
 
 unsigned char ImageFrame::getBrightness(){
@@ -191,6 +202,12 @@ unsigned char ImageFrame::getBrightness(){
 
 unsigned char ImageFrame::getContrast(){
 	return imgPanel->getContrast();
+}
+
+void ImageFrame::updateFrame() {
+	//wxSize panelSize = imgPanel->getImageSize();
+	//panelSize.SetHeight(statusBar->GetBorders().GetHeight() + panelSize.GetHeight());
+	SetClientSize(imgPanel->getImageSize());
 }
 
 wxString ImageFrame::getExt(wxString filename) {

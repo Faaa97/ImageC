@@ -71,6 +71,9 @@ public:
 	void computeThreshold(unsigned char t);
 	void compute90Rotation(int direction);
 	void computeFlip(int direction);
+	void computeTranspose();
+
+	wxSize getSize();
 
 	unsigned char getPixel(wxPoint p);
 	unsigned char getPixelR(wxPoint p);

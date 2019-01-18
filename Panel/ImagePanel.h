@@ -53,6 +53,7 @@ public:
 
 	void compute90Rotation(int direction);
 	void computeFlip(int direction);
+	void computeTranspose();
 
 	unsigned char getBrightness();
 	unsigned char getContrast();

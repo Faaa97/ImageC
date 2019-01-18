@@ -24,7 +24,7 @@
 class ImageFrame : public wxFrame{
 
 	ImagePanel* imgPanel;
-	
+	wxStatusBar* statusBar;
 	wxDateTime lastFocus;
 
 	wxString ext;	//Extension file
@@ -34,6 +34,8 @@ class ImageFrame : public wxFrame{
 	wxWindow* parent;
 	void onSetFocus(wxFocusEvent& event);
 	//void OnMouseMoved(wxMouseEvent & event);
+
+	void updateFrame();
 
 	wxString getExt(wxString filename);
 	wxString getExpresion(wxString & texto, wxString exp);
@@ -67,6 +69,7 @@ public:
 
 	void compute90Rotation(int direction);
 	void computeFlip(int direction);
+	void computeTranspose();
 
 	unsigned char getBrightness();
 	unsigned char getContrast();

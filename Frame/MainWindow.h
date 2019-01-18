@@ -65,6 +65,7 @@ private:
 	void OnMenuImagenTransformarEspejoVertical(wxCommandEvent & event);
 	void OnMenuImagenTransformarRotarDerecha(wxCommandEvent & event);
 	void OnMenuImagenTransformarRotarIzquierda(wxCommandEvent & event);
+	void OnMenuImagenTransformarTraspuesta(wxCommandEvent & event);
 	void OnMenuProcesarTLineal(wxCommandEvent & event);
 	void OnMenuProcesarBrilloContraste(wxCommandEvent & event);
 	void OnMenuProcesarEcualizar(wxCommandEvent & event);
@@ -96,6 +97,7 @@ enum {
 	ID_M_IMAGEN_TRANSFORMAR_ESPEJO_VERTICAL,
 	ID_M_IMAGEN_TRANSFORMAR_ROTAR_90_DERECHA,
 	ID_M_IMAGEN_TRANSFORMAR_ROTAR_90_IZQUIERDA,
+	ID_M_IMAGEN_TRANSFORMAR_TRASPUESTA,
 	ID_M_PROCESAR,
 	ID_M_PROCESAR_TRANSFORMACION_LINEAL,
 	ID_M_PROCESAR_BRILLO_CONTRASTE,

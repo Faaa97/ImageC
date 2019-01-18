@@ -20,6 +20,22 @@ void Image::refreshBitmap(){
 	delete image;
 	image = new wxBitmap(*img);
 }
+
+//Code taken from https://wiki.wxwidgets.org/WxImage
+void Image::refreshImage(){
+	
+
+	int dataSize = img->GetWidth() * img->GetHeight() * 3;
+	unsigned char* NewImgData = (unsigned char*)malloc(dataSize);
+	unsigned char* OldImgData = img->GetData();
+
+	memcpy(NewImgData, OldImgData, dataSize);
+
+	wxSize rawImgSize = rawImg->getSize();
+
+	img = new wxImage(rawImgSize.GetWidth(), rawImgSize.GetHeight(), NewImgData);
+}
+
 //UNDONE: Usar wxImage::GetType para simplificar el control de las extensiones
 Image::Image(wxString file, wxBitmapType format){
 	
@@ -139,13 +155,22 @@ void Image::computeThreshold(unsigned char t){
 }
 
 void Image::compute90Rotation(int direction){
-	rawImg->compute90Rotation(direction);
 
+	rawImg->compute90Rotation(direction);
+	
+	refreshImage();
 	refreshBitmap();
 }
 
 void Image::computeFlip(int direction){
 	rawImg->computeFlip(direction);
 
+	refreshBitmap();
+}
+
+void Image::computeTranspose(){
+	rawImg->computeTranspose();
+	
+	refreshImage();
 	refreshBitmap();
 }

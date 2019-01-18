@@ -78,8 +78,8 @@ void RawImage::resetHistogram() {
 }
 
 void RawImage::setPixel(wxPoint position, unsigned char value){
-	int x = imgSize.GetWidth();
-	int y = imgSize.GetHeight();
+	int x = imgSize.GetX();
+	int y = imgSize.GetY();
 	int index = 0;
 
 	if (x < position.x || y < position.y) {
@@ -250,36 +250,11 @@ void RawImage::computeThreshold(unsigned char t){
 
 void RawImage::compute90Rotation(int direction){
 	
-	vector<vector<unsigned char>> matrix;
-
-	matrix.resize(imgSize.GetX());
-
-	for (int i = 0; i < matrix.size(); i++)
-		matrix[i].resize(imgSize.GetY());
-
-	for (int i = 0; i < imgSize.GetX(); i++) {
-		for (int j = 0; j < imgSize.GetY(); j++) {
-			matrix[i][j] = getPixel(wxPoint(i, j));
-		}
-	}
-	if (direction == RIGHT) {
-		for (int i = 0; i < imgSize.GetX(); i++) {
-			for (int j = 0; j < imgSize.GetY(); j++) {
-				wxPoint p(i, j);
-				setPixel(p, matrix[imgSize.GetY() - 1 - j][i]);
-			}
-		}
-	}
-	else if (direction == LEFT) {
-		for (int i = 0; i < imgSize.GetX(); i++) {
-			for (int j = 0; j < imgSize.GetY(); j++) {
-				wxPoint p(i, j);
-				setPixel(p, matrix[j][imgSize.GetY() - 1 - i]);
-			}
-		}
-	}
-
-	resetHistogram();
+	computeTranspose();
+	if (direction == RIGHT)
+		computeFlip(VERTICAL);
+	else if(direction == LEFT)
+		computeFlip(HORIZONTAL);
 }
 
 void RawImage::computeFlip(int direction){
@@ -288,25 +263,25 @@ void RawImage::computeFlip(int direction){
 
 	matrix.resize(imgSize.GetX());
 
-	for (int i = 0; i < matrix.size(); i++)
+	for (int i = 0; i < matrix.size(); i++) {
 		matrix[i].resize(imgSize.GetY());
 
-	for (int i = 0; i < imgSize.GetX(); i++) {
-		for (int j = 0; j < imgSize.GetY(); j++) {
+		for (int j = 0; j < matrix[i].size(); j++)
 			matrix[i][j] = getPixel(wxPoint(i, j));
-		}
+
 	}
+
 	if (direction == VERTICAL) {
-		for (int i = 0; i < imgSize.GetX(); i++) {
-			for (int j = 0; j < imgSize.GetY(); j++) {
+		for (int i = 0; i < matrix.size(); i++) {
+			for (int j = 0; j < matrix[i].size(); j++) {
 				wxPoint p(i, j);
 				setPixel(p, matrix[imgSize.GetX() - 1 - i][j]);
 			}
 		}
 	}
 	else if (direction == HORIZONTAL) {
-		for (int i = 0; i < imgSize.GetX(); i++) {
-			for (int j = 0; j < imgSize.GetY(); j++) {
+		for (int i = 0; i < matrix.size(); i++) {
+			for (int j = 0; j < matrix[i].size(); j++) {
 				wxPoint p(i, j);
 				setPixel(p, matrix[i][imgSize.GetY() - 1 - j]);
 			}
@@ -314,6 +289,35 @@ void RawImage::computeFlip(int direction){
 	}
 
 	resetHistogram();
+}
+
+	void RawImage::computeTranspose(){
+	vector<vector<unsigned char>> matrix;
+
+	matrix.resize(imgSize.GetX());
+
+	for (int i = 0; i < matrix.size(); i++) {
+		matrix[i].resize(imgSize.GetY());
+		
+		for (int j = 0; j < matrix[i].size(); j++)
+			matrix[i][j] = getPixel(wxPoint(i, j));
+
+	}
+
+	imgSize.Set(imgSize.GetY(), imgSize.GetX());
+
+	for (int i = 0; i < matrix.size(); i++) {
+		for (int j = 0; j < matrix[i].size(); j++) {
+			wxPoint p(j, i);
+			setPixel(p, matrix[i][j]);
+		}
+	}
+
+	resetHistogram();
+}
+
+wxSize RawImage::getSize() {
+	return imgSize;
 }
 
 unsigned char RawImage::getPixel(wxPoint p){

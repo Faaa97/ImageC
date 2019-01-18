@@ -162,10 +162,16 @@ void ImagePanel::computeThreshold(unsigned char t){
 
 void ImagePanel::compute90Rotation(int direction){
 	image->compute90Rotation(direction);
+	this->SetSize(image->GetSize());
 }
 
 void ImagePanel::computeFlip(int direction){
 	image->computeFlip(direction);
+}
+
+void ImagePanel::computeTranspose(){
+	image->computeTranspose();
+	this->SetSize(image->GetSize());
 }
 
 unsigned char ImagePanel::getBrightness(){

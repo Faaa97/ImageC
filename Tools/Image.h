@@ -25,6 +25,7 @@ class Image{
 	RawImage* rawImg;	//Raw info of img
 
 	void refreshBitmap();
+	void refreshImage();
 
 public:
 	Image(wxString file, wxBitmapType format);
@@ -52,5 +53,6 @@ public:
 
 	void compute90Rotation(int direction);
 	void computeFlip(int direction);
+	void computeTranspose();
 };
 

@@ -30,6 +30,7 @@ BEGIN_EVENT_TABLE(MainWindow, wxFrame)
 	EVT_MENU(ID_M_IMAGEN_TRANSFORMAR_ESPEJO_VERTICAL, MainWindow::OnMenuImagenTransformarEspejoVertical)
 	EVT_MENU(ID_M_IMAGEN_TRANSFORMAR_ROTAR_90_DERECHA, MainWindow::OnMenuImagenTransformarRotarDerecha)
 	EVT_MENU(ID_M_IMAGEN_TRANSFORMAR_ROTAR_90_IZQUIERDA, MainWindow::OnMenuImagenTransformarRotarIzquierda)
+	EVT_MENU(ID_M_IMAGEN_TRANSFORMAR_TRASPUESTA, MainWindow::OnMenuImagenTransformarTraspuesta)
 	EVT_MENU(ID_M_PROCESAR_TRANSFORMACION_LINEAL, MainWindow::OnMenuProcesarTLineal)
 	EVT_MENU(ID_M_PROCESAR_BRILLO_CONTRASTE, MainWindow::OnMenuProcesarBrilloContraste)
 	EVT_MENU(ID_M_PROCESAR_ECUALIZAR, MainWindow::OnMenuProcesarEcualizar)
@@ -110,6 +111,9 @@ MainWindow::MainWindow(const wxString& title)
 
 	imagen_transformar_M->Append(ID_M_IMAGEN_TRANSFORMAR_ROTAR_90_IZQUIERDA, "&Rotar 90º Izquierda",
 		"Rotar la imagen en sentido horario 90º.");
+
+	imagen_transformar_M->Append(ID_M_IMAGEN_TRANSFORMAR_TRASPUESTA, "&Imagen traspuesta",
+		"Intercambiar filas por columnas en la imagen.");
 
 	imagen_M->AppendSubMenu(imagen_transformar_M, _T("&Transformar"));
 
@@ -197,11 +201,11 @@ bool MainWindow::saveAndCloseAllImages() {
 		if (result == USER_YES) {
 			guardarImagen(images[i]);
 			cerrarImagen(images[i]);
-			//i--;
+			i--;
 		} else if (result == USER_NO) {
 			//BUG: A veces falla, errores con los punteros.
 			cerrarImagen(images[i]);
-			//i--;
+			i--;
 		} else	//USER_CANCEL
 			return false;
 	}
@@ -212,8 +216,7 @@ bool MainWindow::saveAndCloseAllImages() {
 int MainWindow::askUserForSave(ImageFrame* target) {
 
 	ImageFrame* t;
-	if (target == NULL) {
-		updateLastFocus();
+	if (target == NULL && updateLastFocus()) {
 		t = lastFocus;
 	} else
 		t = target;
@@ -332,6 +335,7 @@ void MainWindow::cerrarImagen(ImageFrame* target){
 			break;
 		}
 	}
+	updateLastFocus();
 }
 
 MainWindow::~MainWindow() {
@@ -527,6 +531,17 @@ void MainWindow::OnMenuImagenTransformarRotarIzquierda(wxCommandEvent & event){
 
 	lastFocus = duplicate(lastFocus);
 	lastFocus->compute90Rotation(LEFT);
+	lastFocus->Raise();
+}
+
+void MainWindow::OnMenuImagenTransformarTraspuesta(wxCommandEvent & event){
+	bool status = updateLastFocus();
+
+	if (!status) //if status == false then lastFocus == NULL
+		return;
+
+	lastFocus = duplicate(lastFocus);
+	lastFocus->computeTranspose();
 	lastFocus->Raise();
 }
 
