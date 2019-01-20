@@ -174,6 +174,11 @@ void ImagePanel::computeTranspose(){
 	this->SetSize(image->GetSize());
 }
 
+void ImagePanel::computeScaling(double proportion, int interpolation){
+	image->computeScaling(proportion, interpolation);
+	this->SetSize(image->GetSize());
+}
+
 unsigned char ImagePanel::getBrightness(){
 	return image->getBrightness();
 }

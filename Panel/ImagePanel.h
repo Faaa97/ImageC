@@ -54,6 +54,7 @@ public:
 	void compute90Rotation(int direction);
 	void computeFlip(int direction);
 	void computeTranspose();
+	void computeScaling(double proportion, int interpolation);
 
 	unsigned char getBrightness();
 	unsigned char getContrast();

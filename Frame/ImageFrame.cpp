@@ -195,6 +195,13 @@ void ImageFrame::computeTranspose(){
 	this->Refresh();
 }
 
+void ImageFrame::computeScaling(double proportion, int interpolation){
+	imgPanel->computeScaling(proportion, interpolation);
+	modified = true;
+	updateFrame();
+	this->Refresh();
+}
+
 unsigned char ImageFrame::getBrightness(){
 	return imgPanel->getBrightness();
 }

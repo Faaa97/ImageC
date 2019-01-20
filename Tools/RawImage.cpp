@@ -316,8 +316,92 @@ void RawImage::computeFlip(int direction){
 	resetHistogram();
 }
 
+void RawImage::computeScaling(double proportion, int interpolation){
+
+	int x = imgSize.GetX();
+	int y = imgSize.GetY();
+
+	int newX = floor(x * proportion);
+	int newY = floor(y * proportion);
+
+	vector<vector<unsigned char>> matrix;
+
+	matrix.resize(x);
+
+	for (int i = 0; i < matrix.size(); i++) {
+		matrix[i].resize(y);
+
+		for (int j = 0; j < matrix[i].size(); j++)
+			matrix[i][j] = getPixel(wxPoint(i, j));
+
+	}
+
+	imgSize.Set(newX, newY);
+	int dataSize = newX * newY * 3;
+	rawImg = (unsigned char*)malloc(dataSize);	//No need to close as wxImage will close it when needed
+
+	if (interpolation == VMP) {
+		for (int i = 0; i < newX; i++) {
+			for (int j = 0; j < newY; j++) {
+				double indiceX = i / proportion;
+				double indiceY = j / proportion;
+
+				int sourceX = floor(indiceX);
+				int sourceY = floor(indiceY);
+
+
+
+				unsigned char value = matrix[sourceX][sourceY];
+
+				wxPoint p(i, j);
+				setPixel(p, value);
+
+				}
+
+			}
+		}
+	else if (interpolation == BILINEAL) {
+		for (int i = 0; i < newX; i++) {
+			for (int j = 0; j < newY; j++) {
+				double indiceX = i / proportion;
+				double indiceY = j / proportion;
+
+				int t = floor(indiceX);
+				int v = floor(indiceY);
+
+				int t2 = min(t + 1, x - 1);
+				int v2 = min(v + 1, y - 1);
+
+				int A = matrix[t][v2];
+				int B = matrix[t2][v2];
+				int C = matrix[t][v];
+				int D = matrix[t2][v];
+
+				double p = indiceX - t;
+				double q = indiceY - v;
+
+				double term1 = (D - C) * p;
+				double term2 = (A - C) * q;
+				double term3 = (B + C - A - D) * p * q;
+
+				unsigned char value = floor(C + term1 + term2 + term3);
+
+				wxPoint point(i, j);
+				setPixel(point, value);
+			}
+		}
+	}
+
+
+	resetHistogram();
+}
+
 wxSize RawImage::getSize() {
 	return imgSize;
+}
+
+unsigned char * RawImage::getData(){
+	return rawImg;
 }
 
 unsigned char RawImage::getPixel(wxPoint p){

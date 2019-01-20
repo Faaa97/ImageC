@@ -23,6 +23,7 @@
 #include "../Dialog/TLinealDialog.h"
 #include "../Dialog/BCLinealDialog.h"
 #include "../Dialog/HEspecificationDialog.h"
+#include "../Dialog/ScaleDialog.h"
 //#include <wx/frame.h>
 
 // For compilers that support precompilation, includes "wx/wx.h".
@@ -61,6 +62,7 @@ private:
 	void OnMenuImagenConvertirNTSC(wxCommandEvent &event);
 	void OnMenuImagenConvertirPAL(wxCommandEvent &event);
 	void OnMenuImagenDuplicar(wxCommandEvent & event);
+	void OnMenuImagenEscalado(wxCommandEvent & event);
 	void OnMenuImagenTransformarEspejoHorizontal(wxCommandEvent & event);
 	void OnMenuImagenTransformarEspejoVertical(wxCommandEvent & event);
 	void OnMenuImagenTransformarRotarDerecha(wxCommandEvent & event);
@@ -93,6 +95,7 @@ enum {
 	ID_M_IMAGEN_CONVERTIR_NTSC,
 	ID_M_IMAGEN_CONVERTIR_PAL,
 	ID_M_IMAGEN_DUPLICAR,
+	ID_M_IMAGEN_ESCALADO,
 	ID_M_IMAGEN_TRANSFORMAR_ESPEJO_HORIZONTAL,
 	ID_M_IMAGEN_TRANSFORMAR_ESPEJO_VERTICAL,
 	ID_M_IMAGEN_TRANSFORMAR_ROTAR_90_DERECHA,

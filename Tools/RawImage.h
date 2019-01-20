@@ -32,6 +32,8 @@ enum {
 	RIGHT,
 	VERTICAL,
 	HORIZONTAL,
+	VMP,
+	BILINEAL
 };
 
 using namespace std;
@@ -72,9 +74,9 @@ public:
 	void compute90Rotation(int direction);
 	void computeFlip(int direction);
 	void computeTranspose();
-
+	void computeScaling(double proportion, int interpolation);
 	wxSize getSize();
-
+	unsigned char* getData();
 	unsigned char getPixel(wxPoint p);
 	unsigned char getPixelR(wxPoint p);
 	unsigned char getPixelG(wxPoint p);

@@ -22,18 +22,26 @@ void Image::refreshBitmap(){
 }
 
 //Code taken from https://wiki.wxwidgets.org/WxImage
-void Image::refreshImage(){
+void Image::refreshImage(unsigned char* datap){
 	
+	if (datap == NULL) {
 
-	int dataSize = img->GetWidth() * img->GetHeight() * 3;
-	unsigned char* NewImgData = (unsigned char*)malloc(dataSize);
-	unsigned char* OldImgData = img->GetData();
+		int dataSize = img->GetWidth() * img->GetHeight() * 3;
+		unsigned char* NewImgData = (unsigned char*)malloc(dataSize);
+		unsigned char* OldImgData = img->GetData();
 
-	memcpy(NewImgData, OldImgData, dataSize);
+		memcpy(NewImgData, OldImgData, dataSize);
 
-	wxSize rawImgSize = rawImg->getSize();
+		wxSize rawImgSize = rawImg->getSize();
 
-	img = new wxImage(rawImgSize.GetWidth(), rawImgSize.GetHeight(), NewImgData);
+		img = new wxImage(rawImgSize.GetWidth(), rawImgSize.GetHeight(), NewImgData);
+	}
+	else { //datap ==  something
+		wxSize rawImgSize = rawImg->getSize();
+
+		img = new wxImage(rawImgSize.GetWidth(), rawImgSize.GetHeight(), datap);
+	}
+
 }
 
 Image::Image(wxString file){
@@ -171,5 +179,12 @@ void Image::computeTranspose(){
 	rawImg->computeTranspose();
 	
 	refreshImage();
+	refreshBitmap();
+}
+
+void Image::computeScaling(double proportion, int interpolation){
+	rawImg->computeScaling(proportion, interpolation);
+
+	refreshImage(rawImg->getData());
 	refreshBitmap();
 }

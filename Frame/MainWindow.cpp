@@ -24,6 +24,7 @@ BEGIN_EVENT_TABLE(MainWindow, wxFrame)
 	EVT_MENU(ID_M_IMAGEN_AJUSTAR_TAMANO, MainWindow::OnMenuImagenAjustarTamano)
 	EVT_MENU(ID_M_IMAGEN_INFO, MainWindow::OnMenuImagenInfo)
 	EVT_MENU(ID_M_IMAGEN_DUPLICAR, MainWindow::OnMenuImagenDuplicar)
+	EVT_MENU(ID_M_IMAGEN_ESCALADO, MainWindow::OnMenuImagenEscalado)
 	EVT_MENU(ID_M_IMAGEN_CONVERTIR_NTSC, MainWindow::OnMenuImagenConvertirNTSC)
 	EVT_MENU(ID_M_IMAGEN_CONVERTIR_PAL, MainWindow::OnMenuImagenConvertirPAL)
 	EVT_MENU(ID_M_IMAGEN_TRANSFORMAR_ESPEJO_HORIZONTAL, MainWindow::OnMenuImagenTransformarEspejoHorizontal)
@@ -97,6 +98,9 @@ MainWindow::MainWindow(const wxString& title)
 
 	imagen_M->Append(ID_M_IMAGEN_DUPLICAR, "&Duplicar",
 		"Duplicar imagen.");
+
+	imagen_M->Append(ID_M_IMAGEN_ESCALADO, "&Escalado...",
+		"Escalar la imagen e interpolación VMP o Bilineal.");
 
 	wxMenu *imagen_transformar_M = new wxMenu;
 
@@ -488,6 +492,26 @@ void MainWindow::OnMenuImagenDuplicar(wxCommandEvent & event){
 
 	lastFocus = duplicate(lastFocus);
 	lastFocus->Raise();
+}
+
+void MainWindow::OnMenuImagenEscalado(wxCommandEvent & event){
+	bool status = updateLastFocus();
+
+	if (!status) //if status == false then lastFocus == NULL
+		return;
+
+	ScaleDialog dialog;
+
+	if (dialog.ShowModal()) {
+		double p = double(dialog.getProportion()) / double(100);
+		int m = dialog.getInterpolationMethod();
+		lastFocus = duplicate(lastFocus);
+		lastFocus->computeScaling(p, m);
+		lastFocus->Raise();
+	}
+	else {
+		//nothing
+	}
 }
 
 void MainWindow::OnMenuImagenTransformarEspejoHorizontal(wxCommandEvent & event){
