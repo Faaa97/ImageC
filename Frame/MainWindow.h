@@ -74,6 +74,7 @@ private:
 	void OnMenuProcesarEspecificacionH(wxCommandEvent & event);
 	void OnMenuProcesarCorreccionGamma(wxCommandEvent & event);
 	void OnMenuProcesarDiferencia(wxCommandEvent & event);
+	void OnMenuProcesarFiltrosConvolucion(wxCommandEvent & event);
 	void OnMenuAnalizarHistograma(wxCommandEvent & event);
 	void OnQuit(wxCommandEvent& event);
 	void OnExit(wxCloseEvent& event);
@@ -108,6 +109,7 @@ enum {
 	ID_M_PROCESAR_ESPECIFICACION_HISTOGRAMA,
 	ID_M_PROCESAR_CORRECCION_GAMMA,
 	ID_M_PROCESAR_DIFERENCIA,
+	ID_M_PROCESAR_FILTROS_CONVOLUCION,
 	ID_M_ANALIZAR,
 	ID_M_ANALIZAR_HISTOGRAMA,
 	ID_M_AYUDA,

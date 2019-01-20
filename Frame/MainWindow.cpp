@@ -38,6 +38,7 @@ BEGIN_EVENT_TABLE(MainWindow, wxFrame)
 	EVT_MENU(ID_M_PROCESAR_ESPECIFICACION_HISTOGRAMA, MainWindow::OnMenuProcesarEspecificacionH)
 	EVT_MENU(ID_M_PROCESAR_CORRECCION_GAMMA, MainWindow::OnMenuProcesarCorreccionGamma)
 	EVT_MENU(ID_M_PROCESAR_DIFERENCIA, MainWindow::OnMenuProcesarDiferencia)
+	EVT_MENU(ID_M_PROCESAR_FILTROS_CONVOLUCION, MainWindow::OnMenuProcesarFiltrosConvolucion)
 	EVT_MENU(ID_M_ANALIZAR_HISTOGRAMA, MainWindow::OnMenuAnalizarHistograma)
 	EVT_MENU(wxID_EXIT, MainWindow::OnQuit)
 	EVT_CLOSE(MainWindow::OnExit)
@@ -141,6 +142,13 @@ MainWindow::MainWindow(const wxString& title)
 
 	procesar_M->Append(ID_M_PROCESAR_DIFERENCIA, "&Diferencia de imágenes",
 		"Diferencia de imágenes.");
+
+	wxMenu *procesar_filtros_M = new wxMenu;
+
+	procesar_filtros_M->Append(ID_M_PROCESAR_FILTROS_CONVOLUCION, "&Convolución...",
+		"Convoluciona una imagen utilizando un kernel.")->Enable(false);	//Remove "->Enable(false)" when ready
+
+	procesar_M->AppendSubMenu(procesar_filtros_M, _T("&Filtros"));
 
 	//ANALIZAR
 	analizar_M->Append(ID_M_ANALIZAR_HISTOGRAMA, "&Histograma",
@@ -712,6 +720,10 @@ void MainWindow::OnMenuProcesarDiferencia(wxCommandEvent & event) {
 			dialog.ShowModal();
 		}
 	}
+}
+
+void MainWindow::OnMenuProcesarFiltrosConvolucion(wxCommandEvent & event){
+
 }
 
 
