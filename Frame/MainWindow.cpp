@@ -31,6 +31,7 @@ BEGIN_EVENT_TABLE(MainWindow, wxFrame)
 	EVT_MENU(ID_M_IMAGEN_TRANSFORMAR_ESPEJO_VERTICAL, MainWindow::OnMenuImagenTransformarEspejoVertical)
 	EVT_MENU(ID_M_IMAGEN_TRANSFORMAR_ROTAR_90_DERECHA, MainWindow::OnMenuImagenTransformarRotarDerecha)
 	EVT_MENU(ID_M_IMAGEN_TRANSFORMAR_ROTAR_90_IZQUIERDA, MainWindow::OnMenuImagenTransformarRotarIzquierda)
+	EVT_MENU(ID_M_IMAGEN_TRANSFORMAR_ROTACION, MainWindow::OnMenuImagenTransformarRotacion)
 	EVT_MENU(ID_M_IMAGEN_TRANSFORMAR_TRASPUESTA, MainWindow::OnMenuImagenTransformarTraspuesta)
 	EVT_MENU(ID_M_PROCESAR_TRANSFORMACION_LINEAL, MainWindow::OnMenuProcesarTLineal)
 	EVT_MENU(ID_M_PROCESAR_BRILLO_CONTRASTE, MainWindow::OnMenuProcesarBrilloContraste)
@@ -116,6 +117,9 @@ MainWindow::MainWindow(const wxString& title)
 
 	imagen_transformar_M->Append(ID_M_IMAGEN_TRANSFORMAR_ROTAR_90_IZQUIERDA, "&Rotar 90º Izquierda",
 		"Rotar la imagen en sentido horario 90º.");
+
+	imagen_transformar_M->Append(ID_M_IMAGEN_TRANSFORMAR_ROTACION, "&Rotación...",
+		"Rotar la imagen según ángulo y sentido.")->Enable(false);	//Remove "->Enable(false)" when ready
 
 	imagen_transformar_M->Append(ID_M_IMAGEN_TRANSFORMAR_TRASPUESTA, "&Imagen traspuesta",
 		"Intercambiar filas por columnas en la imagen.");
@@ -564,6 +568,10 @@ void MainWindow::OnMenuImagenTransformarRotarIzquierda(wxCommandEvent & event){
 	lastFocus = duplicate(lastFocus);
 	lastFocus->compute90Rotation(LEFT);
 	lastFocus->Raise();
+}
+
+void MainWindow::OnMenuImagenTransformarRotacion(wxCommandEvent & event){
+
 }
 
 void MainWindow::OnMenuImagenTransformarTraspuesta(wxCommandEvent & event){
