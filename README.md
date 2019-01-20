@@ -11,12 +11,15 @@ It's built using wxWidgets and C++.
 * Threshold.
 * Resizing image.
 * Rotation (90º).
+* Horizontal and vertical flip.
+* Transpose of an image.
 * Lineal Transformation
 * Lineal brightness and contrast fit.
 * Histogram Equalizer.
 * Histogram especification.
 * Gamma correction
 * Image difference.
+* Image scaling
 
 ## RoadMap
 This is the planned work and scope of the project.
@@ -34,9 +37,6 @@ UNDONE is optional work, should be addressed if there is spare time. Low priorit
 ### TODO
 
 * Region of Interest
-* Horizontal and vertical flip.
-* Transpose of an image.
-* Image scaling
 * Image Rotation (any angle)
 
 ### UNDONE
