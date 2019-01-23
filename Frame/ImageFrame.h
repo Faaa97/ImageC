@@ -35,6 +35,7 @@ class ImageFrame : public wxFrame{
 	void onSetFocus(wxFocusEvent& event);
 
 	void updateFrame();
+	void updateStatusText();
 
 	wxString getExt(wxString filename);
 	wxString getExpresion(wxString & texto, wxString exp);

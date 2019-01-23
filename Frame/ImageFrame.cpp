@@ -53,13 +53,7 @@ ImageFrame::ImageFrame(wxFrame* parent, wxString filepath, wxString filename):
 	statusBar = CreateStatusBar(3);
 
 	updateFrame();
-
-	wxString res = std::to_string(imgPanel->getImageSize().GetWidth()) + "x" + std::to_string(imgPanel->getImageSize().GetHeight());
-
-	SetStatusText(res, 0);	//0: Tamaño total de la imagen
-	SetStatusText(res, 1);	//1: Posición actual del raton
-	SetStatusText(res, 2);	//2: Color de la posición actual
-
+	updateStatusText();
 }
 
 
@@ -89,15 +83,8 @@ ImageFrame::ImageFrame(const ImageFrame & frame):
 
 	wxStatusBar status = CreateStatusBar(3);
 
-	wxSize panelSize = imgPanel->getImageSize();
-	panelSize.SetHeight(status.GetBorders().GetHeight() + panelSize.GetHeight());
-	SetClientSize(panelSize);
-
-	wxString res = std::to_string(imgPanel->getImageSize().GetWidth()) + "x" + std::to_string(imgPanel->getImageSize().GetHeight());
-
-	SetStatusText(res, 0);	//0: Tamaño total de la imagen
-	SetStatusText(res, 1);	//1: Posición actual del raton
-	SetStatusText(res, 2);	//2: Color de la posición actual
+	updateFrame();
+	updateStatusText();
 }
 
 ImageFrame::~ImageFrame(){
@@ -179,6 +166,7 @@ void ImageFrame::compute90Rotation(int direction){
 	imgPanel->compute90Rotation(direction);
 	modified = true;
 	updateFrame();
+	updateStatusText();
 	this->Refresh();
 }
 
@@ -192,6 +180,7 @@ void ImageFrame::computeTranspose(){
 	imgPanel->computeTranspose();
 	modified = true;
 	updateFrame();
+	updateStatusText();
 	this->Refresh();
 }
 
@@ -199,6 +188,7 @@ void ImageFrame::computeScaling(double proportion, int interpolation){
 	imgPanel->computeScaling(proportion, interpolation);
 	modified = true;
 	updateFrame();
+	updateStatusText();
 	this->Refresh();
 }
 
@@ -206,6 +196,7 @@ void ImageFrame::computeRotation(double angle, int rotMethod, int interMethod){
 	imgPanel->computeRotation(angle, rotMethod, interMethod);
 	modified = true;
 	updateFrame();
+	updateStatusText();
 	this->Refresh();
 }
 
@@ -219,6 +210,12 @@ unsigned char ImageFrame::getContrast(){
 
 void ImageFrame::updateFrame() {
 	SetClientSize(imgPanel->getImageSize());
+}
+
+void ImageFrame::updateStatusText(){
+	wxString res = std::to_string(imgPanel->getImageSize().GetWidth()) + "x" + std::to_string(imgPanel->getImageSize().GetHeight());
+
+	SetStatusText(res, 0);	//0: Tamaño total de la imagen
 }
 
 wxString ImageFrame::getExt(wxString filename) {
