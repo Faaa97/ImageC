@@ -188,3 +188,10 @@ void Image::computeScaling(double proportion, int interpolation){
 	refreshImage(rawImg->getData());
 	refreshBitmap();
 }
+
+void Image::computeRotation(double angle, int rotMethod, int interMethod){
+	rawImg->computeRotation(angle, rotMethod, interMethod);
+
+	refreshImage(rawImg->getData());
+	refreshBitmap();
+}

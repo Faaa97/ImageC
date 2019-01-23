@@ -33,7 +33,9 @@ enum {
 	VERTICAL,
 	HORIZONTAL,
 	VMP,
-	BILINEAL
+	BILINEAL,
+	METODO_ROTACION_ROTAR_PINTAR,
+	METODO_ROTACION_MEJORADO
 };
 
 using namespace std;
@@ -54,6 +56,12 @@ class RawImage{
 	void computeWithLUT(const LookUpTable& table);
 	void resetHistogram();
 	void setPixel(wxPoint position, unsigned char value);
+
+	wxRealPoint maxPoint(const vector<wxRealPoint>& points);
+	wxRealPoint minPoint(const vector<wxRealPoint>& points);
+	wxRealPoint rotatePointFromAxis(wxPoint p, double angle);
+	wxRealPoint rotatePointIT(wxPoint p, double angle);
+	wxRealPoint translatePoint(wxRealPoint main, wxRealPoint vector);
 public:
 	RawImage();
 	RawImage(unsigned char* raw, wxSize size, unsigned type);
@@ -75,6 +83,8 @@ public:
 	void computeFlip(int direction);
 	void computeTranspose();
 	void computeScaling(double proportion, int interpolation);
+	void computeRotation(double angle, int rotMethod, int interMethod);
+
 	wxSize getSize();
 	unsigned char* getData();
 	unsigned char getPixel(wxPoint p);

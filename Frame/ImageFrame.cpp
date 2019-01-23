@@ -202,6 +202,13 @@ void ImageFrame::computeScaling(double proportion, int interpolation){
 	this->Refresh();
 }
 
+void ImageFrame::computeRotation(double angle, int rotMethod, int interMethod){
+	imgPanel->computeRotation(angle, rotMethod, interMethod);
+	modified = true;
+	updateFrame();
+	this->Refresh();
+}
+
 unsigned char ImageFrame::getBrightness(){
 	return imgPanel->getBrightness();
 }

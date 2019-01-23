@@ -55,5 +55,6 @@ public:
 	void computeFlip(int direction);
 	void computeTranspose();
 	void computeScaling(double proportion, int interpolation);
+	void computeRotation(double angle, int rotMethod, int interMethod);
 };
 

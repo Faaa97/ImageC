@@ -24,6 +24,7 @@
 #include "../Dialog/BCLinealDialog.h"
 #include "../Dialog/HEspecificationDialog.h"
 #include "../Dialog/ScaleDialog.h"
+#include "../Dialog/RotationDialog.h"
 //#include <wx/frame.h>
 
 // For compilers that support precompilation, includes "wx/wx.h".

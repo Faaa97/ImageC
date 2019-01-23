@@ -264,6 +264,7 @@
   <ItemGroup>
     <ClCompile Include="Dialog\BCLinealDialog.cpp" />
     <ClCompile Include="Dialog\HEspecificationDialog.cpp" />
+    <ClCompile Include="Dialog\RotationDialog.cpp" />
     <ClCompile Include="Dialog\ScaleDialog.cpp" />
     <ClCompile Include="Dialog\TLinealDialog.cpp" />
     <ClCompile Include="Frame\HistogramFrame.cpp" />
@@ -285,6 +286,7 @@
   <ItemGroup>
     <ClInclude Include="Dialog\BCLinealDialog.h" />
     <ClInclude Include="Dialog\HEspecificationDialog.h" />
+    <ClInclude Include="Dialog\RotationDialog.h" />
     <ClInclude Include="Dialog\ScaleDialog.h" />
     <ClInclude Include="Dialog\TLinealDialog.h" />
     <ClInclude Include="Frame\HistogramFrame.h" />

@@ -119,7 +119,7 @@ MainWindow::MainWindow(const wxString& title)
 		"Rotar la imagen en sentido horario 90º.");
 
 	imagen_transformar_M->Append(ID_M_IMAGEN_TRANSFORMAR_ROTACION, "&Rotación...",
-		"Rotar la imagen según ángulo y sentido.")->Enable(false);	//Remove "->Enable(false)" when ready
+		"Rotar la imagen según ángulo y sentido.");
 
 	imagen_transformar_M->Append(ID_M_IMAGEN_TRANSFORMAR_TRASPUESTA, "&Imagen traspuesta",
 		"Intercambiar filas por columnas en la imagen.");
@@ -572,6 +572,24 @@ void MainWindow::OnMenuImagenTransformarRotarIzquierda(wxCommandEvent & event){
 
 void MainWindow::OnMenuImagenTransformarRotacion(wxCommandEvent & event){
 
+	bool status = updateLastFocus();
+
+	if (!status) //if status == false then lastFocus == NULL
+		return;
+
+	RotationDialog dialog;
+
+	if (dialog.ShowModal()) {
+		double a = dialog.getAngle();
+		int m = dialog.getRotationMethod();
+		int i = dialog.getInterpolationMethod();
+		lastFocus = duplicate(lastFocus);
+		lastFocus->computeRotation(a, m, i);
+		lastFocus->Raise();
+	}
+	else {
+		//nothing
+	}
 }
 
 void MainWindow::OnMenuImagenTransformarTraspuesta(wxCommandEvent & event){

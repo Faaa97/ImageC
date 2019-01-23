@@ -94,6 +94,58 @@ void RawImage::setPixel(wxPoint position, unsigned char value){
 
 }
 
+wxRealPoint RawImage::maxPoint(const vector<wxRealPoint>& points){
+	double maxX = points[0].x;
+	double maxY = points[0].y;
+
+	for (int i = 1; i < points.size(); i++) {
+		if (points[i].x > maxX) {
+			maxX = points[i].x;
+		}
+		if (points[i].y > maxY) {
+			maxY = points[i].y;
+		}
+	}
+	return wxRealPoint(maxX, maxY);
+}
+
+wxRealPoint RawImage::minPoint(const vector<wxRealPoint>& points){
+	double minX = points[0].x;
+	double minY = points[0].y;
+
+	for (int i = 1; i < points.size(); i++) {
+		if (points[i].x < minX) {
+			minX = points[i].x;
+		}
+		if (points[i].y < minY) {
+			minY = points[i].y;
+		}
+	}
+	return wxRealPoint(minX, minY);
+}
+
+
+wxRealPoint RawImage::rotatePointFromAxis(wxPoint p, double angle){
+	double x = double(p.x) * cos(angle) - double(p.y) * sin(angle);
+	double y = double(p.x) * sin(angle) + double(p.y) * cos(angle);
+
+	return wxRealPoint(x, y);
+}
+
+wxRealPoint RawImage::rotatePointIT(wxPoint p, double angle){
+	double x = double(p.x) * cos(angle) + double(p.y) * sin(angle);
+	double y = double(-p.x) * sin(angle) + double(p.y) * cos(angle);
+
+	return wxRealPoint(x, y);
+}
+
+wxRealPoint RawImage::translatePoint(wxRealPoint main, wxRealPoint vector){
+	double x = main.x + vector.x;
+	double y = main.y + vector.y;
+
+	return wxRealPoint(x, y);
+}
+
 void RawImage::convertToGrayScale(unsigned type){
 	//Exploración de arriba a abajo, de izquierda a derecha.
 
@@ -392,6 +444,132 @@ void RawImage::computeScaling(double proportion, int interpolation){
 		}
 	}
 
+
+	resetHistogram();
+}
+
+void RawImage::computeRotation(double angle, int rotMethod, int interMethod){
+	
+	int x = imgSize.GetX();	//Tamaño x de la imagen original
+	int y = imgSize.GetY();	//Tamaño y de la imagen original
+
+	vector<vector<unsigned char>> matrix;	//Matriz de tamaño [x][y] que contiene los pixeles de la imagen original
+
+	matrix.resize(x);
+
+	for (int i = 0; i < matrix.size(); i++) {
+		matrix[i].resize(y);
+
+		for (int j = 0; j < matrix[i].size(); j++)
+			matrix[i][j] = getPixel(wxPoint(i, j));
+
+	}
+
+	/*		A - - - - - - - B -> Each point is a corner
+	 *		|	  Image		|
+	 *		C -	- - - - - - D	*/
+
+	vector<wxPoint> points;	//Los puntos que conforman las 4 esquinas de la imagen original.
+	points.push_back(wxPoint(0, 0));		//A
+	points.push_back(wxPoint(x - 1, 0));	//B
+	points.push_back(wxPoint(0, y - 1));	//C
+	points.push_back(wxPoint(x - 1, y - 1));//D
+
+	vector<wxRealPoint> rotatedPoints;	//points, rotados angle grados (imagen original)
+
+	for (int i = 0; i < points.size(); i++) {
+		wxRealPoint rotated = rotatePointFromAxis(points[i], angle);
+		rotatedPoints.push_back(rotated);
+	}
+	
+	wxRealPoint maxp = maxPoint(rotatedPoints);	//Coordenadas máximas en x e y
+	wxRealPoint minp = minPoint(rotatedPoints);	//Coordenadas mínimas en x e y
+
+	int newX = abs(maxp.x - minp.x);	//Nuevo tamaño de imagen (X)
+	int newY = abs(maxp.y - minp.y);	//Nuevo tamaño de imagen (Y)
+
+	imgSize.Set(newX, newY);
+	int dataSize = newX * newY * 3;
+	rawImg = (unsigned char*)malloc(dataSize);	//No need to close as wxImage will close it when needed
+
+	if (rotMethod == METODO_ROTACION_ROTAR_PINTAR) {
+		for (int i = 0; i < newX * newY * 3; i++) {
+			rawImg[i] = 0;
+		}
+
+		for (int i = 0; i < matrix.size(); i++) {
+			for (int j = 0; j < matrix[i].size(); j++) {
+				wxRealPoint rotated = rotatePointFromAxis(wxPoint(i, j), angle);
+				wxRealPoint rotatedAndTranslated = translatePoint(rotated, wxRealPoint(-minp.x, -minp.y));
+				wxPoint dummy(floor(rotatedAndTranslated.x), floor(rotatedAndTranslated.y));
+				setPixel(dummy, matrix[i][j]);
+			}
+		}
+	}
+	else if (rotMethod == METODO_ROTACION_MEJORADO) {
+		if (interMethod == VMP) {
+			for (int i = 0; i < newX; i++) {
+				for (int j = 0; j < newY; j++) {
+					
+					wxRealPoint translated = translatePoint(wxPoint(i, j), wxRealPoint(minp.x, minp.y));
+					wxRealPoint rotated = rotatePointIT(translated, angle);
+
+					wxPoint point(i, j);
+					if (rotated.x < 0 || round(rotated.x) >= x || rotated.y < 0 || round(rotated.y) >= y) {
+						setPixel(point, 0);
+					}
+					else {
+						
+
+						int indiceX = min((int)round(rotated.x), x - 1);// -minp.x;
+						int indiceY = min((int)round(rotated.y), y - 1);// -minp.y;
+
+						setPixel(point, matrix[indiceX][indiceY]);
+
+					}
+
+				}
+			}
+		}
+		else if (interMethod == BILINEAL) {
+			for (int i = 0; i < newX; i++) {
+				for (int j = 0; j < newY; j++) {
+					wxRealPoint translated = translatePoint(wxPoint(i, j), wxRealPoint(minp.x, minp.y));
+					wxRealPoint rotated = rotatePointIT(translated, angle);
+					
+					wxPoint point(i, j);
+					if (rotated.x < 0 || rotated.x >= x || rotated.y < 0 || rotated.y >= y) {
+						setPixel(point, 0);
+					}
+					else {
+
+						int t = floor(rotated.x);
+						int v = floor(rotated.y);
+
+						int t2 = min(t + 1, x - 1);
+						int v2 = min(v + 1, y - 1);
+
+						int A = matrix[t][v2];
+						int B = matrix[t2][v2];
+						int C = matrix[t][v];
+						int D = matrix[t2][v];
+
+						double p = rotated.x - t;
+						double q = rotated.y - v;
+
+						double term1 = (D - C) * p;
+						double term2 = (A - C) * q;
+						double term3 = (B + C - A - D) * p * q;
+
+						unsigned char value = floor(C + term1 + term2 + term3);
+						wxPoint point(i, j);
+						setPixel(point, value);
+					}
+
+				}
+			}
+		}
+	}
 
 	resetHistogram();
 }

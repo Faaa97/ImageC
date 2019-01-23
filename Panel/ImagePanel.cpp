@@ -179,6 +179,11 @@ void ImagePanel::computeScaling(double proportion, int interpolation){
 	this->SetSize(image->GetSize());
 }
 
+void ImagePanel::computeRotation(double angle, int rotMethod, int interMethod){
+	image->computeRotation(angle, rotMethod, interMethod);
+	this->SetSize(image->GetSize());
+}
+
 unsigned char ImagePanel::getBrightness(){
 	return image->getBrightness();
 }
