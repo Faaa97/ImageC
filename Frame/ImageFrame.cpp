@@ -200,6 +200,12 @@ void ImageFrame::computeRotation(double angle, int rotMethod, int interMethod){
 	this->Refresh();
 }
 
+void ImageFrame::computeConvolution(vector<vector<long>> kernel){
+	imgPanel->computeConvolution(kernel);
+	modified = true;
+	this->Refresh();
+}
+
 unsigned char ImageFrame::getBrightness(){
 	return imgPanel->getBrightness();
 }

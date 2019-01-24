@@ -184,6 +184,10 @@ void ImagePanel::computeRotation(double angle, int rotMethod, int interMethod){
 	this->SetSize(image->GetSize());
 }
 
+void ImagePanel::computeConvolution(vector<vector<long>> kernel){
+	image->computeConvolution(kernel);
+}
+
 unsigned char ImagePanel::getBrightness(){
 	return image->getBrightness();
 }

@@ -150,7 +150,7 @@ MainWindow::MainWindow(const wxString& title)
 	wxMenu *procesar_filtros_M = new wxMenu;
 
 	procesar_filtros_M->Append(ID_M_PROCESAR_FILTROS_CONVOLUCION, "&Convolución...",
-		"Convoluciona una imagen utilizando un kernel.")->Enable(false);	//Remove "->Enable(false)" when ready
+		"Convoluciona una imagen utilizando un kernel.");// ->Enable(false);	//Remove "->Enable(false)" when ready
 
 	procesar_M->AppendSubMenu(procesar_filtros_M, _T("&Filtros"));
 
@@ -749,7 +749,32 @@ void MainWindow::OnMenuProcesarDiferencia(wxCommandEvent & event) {
 }
 
 void MainWindow::OnMenuProcesarFiltrosConvolucion(wxCommandEvent & event){
+	bool status = updateLastFocus();
 
+	if (!status) //if status == false then lastFocus == NULL
+		return;
+
+	ConvolutionDialog dialog;
+	if(dialog.ShowModal()){
+
+		vector<vector<long>> kernel = dialog.getKernel();
+
+		/*vector<vector<long>> kernel;
+		kernel.resize(3);
+		for (int i = 0; i < kernel.size(); i++) {
+			kernel[i].resize(3);
+			for (int j = 0; j < kernel[i].size(); j++) {
+				kernel[i][j] = 1;
+			}
+		}*/
+
+		lastFocus = duplicate(lastFocus);
+		lastFocus->computeConvolution(kernel);
+		lastFocus->Raise();
+	}
+	else {
+		//Nothing
+	}
 }
 
 

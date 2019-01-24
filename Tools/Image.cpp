@@ -195,3 +195,9 @@ void Image::computeRotation(double angle, int rotMethod, int interMethod){
 	refreshImage(rawImg->getData());
 	refreshBitmap();
 }
+
+void Image::computeConvolution(vector<vector<long>> kernel){
+	rawImg->computeConvolution(kernel);
+
+	refreshBitmap();
+}

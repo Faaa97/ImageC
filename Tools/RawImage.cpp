@@ -574,6 +574,70 @@ void RawImage::computeRotation(double angle, int rotMethod, int interMethod){
 	resetHistogram();
 }
 
+void RawImage::computeConvolution(vector<vector<long>> kernel){
+	int x = imgSize.GetX();	//Tamaño x de la imagen original
+	int y = imgSize.GetY();	//Tamaño y de la imagen original
+
+	int kSum = 0;
+
+	for (int i = 0; i < kernel.size(); i++) {
+		for (int j = 0; j < kernel[i].size(); j++) {
+			kSum += kernel[i][j];
+		}
+	}
+
+	double s = double(1) / double(kSum);
+
+	vector<vector<unsigned char>> matrix;	//Matriz de tamaño [x][y] que contiene los pixeles de la imagen original
+
+	matrix.resize(x);
+
+	for (int i = 0; i < matrix.size(); i++) {
+		matrix[i].resize(y);
+
+		for (int j = 0; j < matrix[i].size(); j++)
+			matrix[i][j] = getPixel(wxPoint(i, j));
+
+	}
+	for (int i = 0; i < matrix.size(); i++) {
+		for (int j = 0; j < matrix[i].size(); j++) {
+			int value = 0;
+			int center = (kernel.size() - 1) / 2;
+
+			for (int r = 0; r < kernel.size(); r++) {
+				int indiceX = i - center + r;
+				if (indiceX < 0 || indiceX >= matrix.size())
+					continue;
+				for (int s = 0; s < kernel[r].size(); s++) {
+					int indiceY = j - center + s;
+					if (indiceY < 0 || indiceY >= matrix[i].size())
+						continue;
+					value += kernel[r][s] * matrix[indiceX][indiceY];
+				}
+			}
+			
+			if (kSum != 0) {
+				value = round(s * value);
+			}
+			else {
+				//UNDONE: Preguntar al usuario si quiere reescalar el resultado o truncar en 0-255
+				value = (value + 255) / 2;	//In case of edge detectors, range is [-255, 255] ----shift + shortening---> [0, 255] 
+			}
+			
+			if (value < 0) {
+				value = 0;
+			}
+			else if (value >= 255) {
+				value = 255;
+			}
+			setPixel(wxPoint(i, j), value);
+		}
+
+	}
+
+	resetHistogram();
+}
+
 wxSize RawImage::getSize() {
 	return imgSize;
 }

@@ -84,6 +84,7 @@ public:
 	void computeTranspose();
 	void computeScaling(double proportion, int interpolation);
 	void computeRotation(double angle, int rotMethod, int interMethod);
+	void computeConvolution(vector<vector<long>> kernel);
 
 	wxSize getSize();
 	unsigned char* getData();

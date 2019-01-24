@@ -263,6 +263,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Dialog\BCLinealDialog.cpp" />
+    <ClCompile Include="Dialog\ConvolutionDialog.cpp" />
     <ClCompile Include="Dialog\HEspecificationDialog.cpp" />
     <ClCompile Include="Dialog\RotationDialog.cpp" />
     <ClCompile Include="Dialog\ScaleDialog.cpp" />
@@ -285,6 +286,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dialog\BCLinealDialog.h" />
+    <ClInclude Include="Dialog\ConvolutionDialog.h" />
     <ClInclude Include="Dialog\HEspecificationDialog.h" />
     <ClInclude Include="Dialog\RotationDialog.h" />
     <ClInclude Include="Dialog\ScaleDialog.h" />
