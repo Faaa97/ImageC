@@ -80,7 +80,7 @@ TLinealDialog::TLinealDialog(ImageFrame* t, int s)
 }
 
 void TLinealDialog::onBAceptar(wxCommandEvent & event){
-	this->EndModal(1);
+	this->EndModal(wxID_OK);
 }
 
 void TLinealDialog::onBCancelar(wxCommandEvent & event){
