@@ -56,6 +56,7 @@ class RawImage{
 	void computeWithLUT(const LookUpTable& table);
 	void resetHistogram();
 	void setPixel(wxPoint position, unsigned char value);
+	vector<vector<unsigned char>> getImageCopy();
 
 	wxRealPoint maxPoint(const vector<wxRealPoint>& points);
 	wxRealPoint minPoint(const vector<wxRealPoint>& points);

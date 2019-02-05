@@ -51,8 +51,8 @@ void RawImage::computeWithLUT(const LookUpTable& table){
 
 	unsigned char* datap = rawImg;
 
-	for (int i = 0; i < imgSize.GetY(); i++) {
-		for (int j = 0; j < imgSize.GetX(); j++) {
+	for (int i = 0; i < imgSize.GetX(); i++) {
+		for (int j = 0; j < imgSize.GetY(); j++) {
 			unsigned char value = table.get(*datap);
 			*datap = value;
 			*++datap = value;
@@ -92,6 +92,26 @@ void RawImage::setPixel(wxPoint position, unsigned char value){
 		*(rawImg + (index * 3 + 2)) = value;
 	}
 
+}
+
+vector<vector<unsigned char>> RawImage::getImageCopy(){
+
+	int x = imgSize.GetX();
+	int y = imgSize.GetY();
+
+	vector<vector<unsigned char>> matrix;
+
+	matrix.resize(x);
+
+	for (int i = 0; i < matrix.size(); i++) {
+		matrix[i].resize(y);
+
+		for (int j = 0; j < matrix[i].size(); j++)
+			matrix[i][j] = getPixel(wxPoint(i, j));
+
+	}
+
+	return matrix;
 }
 
 wxRealPoint RawImage::maxPoint(const vector<wxRealPoint>& points){
@@ -311,17 +331,7 @@ void RawImage::compute90Rotation(int direction){
 
 void RawImage::computeFlip(int direction){
 
-	vector<vector<unsigned char>> matrix;
-
-	matrix.resize(imgSize.GetX());
-
-	for (int i = 0; i < matrix.size(); i++) {
-		matrix[i].resize(imgSize.GetY());
-
-		for (int j = 0; j < matrix[i].size(); j++)
-			matrix[i][j] = getPixel(wxPoint(i, j));
-
-	}
+	vector<vector<unsigned char>> matrix = getImageCopy();
 
 	if (direction == VERTICAL) {
 		for (int i = 0; i < matrix.size(); i++) {
@@ -343,18 +353,9 @@ void RawImage::computeFlip(int direction){
 	resetHistogram();
 }
 
-	void RawImage::computeTranspose(){
-	vector<vector<unsigned char>> matrix;
+void RawImage::computeTranspose(){
 
-	matrix.resize(imgSize.GetX());
-
-	for (int i = 0; i < matrix.size(); i++) {
-		matrix[i].resize(imgSize.GetY());
-		
-		for (int j = 0; j < matrix[i].size(); j++)
-			matrix[i][j] = getPixel(wxPoint(i, j));
-
-	}
+	vector<vector<unsigned char>> matrix = getImageCopy();
 
 	imgSize.Set(imgSize.GetY(), imgSize.GetX());
 
@@ -376,17 +377,7 @@ void RawImage::computeScaling(double proportion, int interpolation){
 	int newX = floor(x * proportion);
 	int newY = floor(y * proportion);
 
-	vector<vector<unsigned char>> matrix;
-
-	matrix.resize(x);
-
-	for (int i = 0; i < matrix.size(); i++) {
-		matrix[i].resize(y);
-
-		for (int j = 0; j < matrix[i].size(); j++)
-			matrix[i][j] = getPixel(wxPoint(i, j));
-
-	}
+	vector<vector<unsigned char>> matrix = getImageCopy();
 
 	imgSize.Set(newX, newY);
 	int dataSize = newX * newY * 3;
@@ -453,17 +444,7 @@ void RawImage::computeRotation(double angle, int rotMethod, int interMethod){
 	int x = imgSize.GetX();	//Tamaño x de la imagen original
 	int y = imgSize.GetY();	//Tamaño y de la imagen original
 
-	vector<vector<unsigned char>> matrix;	//Matriz de tamaño [x][y] que contiene los pixeles de la imagen original
-
-	matrix.resize(x);
-
-	for (int i = 0; i < matrix.size(); i++) {
-		matrix[i].resize(y);
-
-		for (int j = 0; j < matrix[i].size(); j++)
-			matrix[i][j] = getPixel(wxPoint(i, j));
-
-	}
+	vector<vector<unsigned char>> matrix = getImageCopy();
 
 	/*		A - - - - - - - B -> Each point is a corner
 	 *		|	  Image		|
@@ -588,17 +569,8 @@ void RawImage::computeConvolution(vector<vector<long>> kernel){
 
 	double s = double(1) / double(kSum);
 
-	vector<vector<unsigned char>> matrix;	//Matriz de tamaño [x][y] que contiene los pixeles de la imagen original
+	vector<vector<unsigned char>> matrix = getImageCopy();
 
-	matrix.resize(x);
-
-	for (int i = 0; i < matrix.size(); i++) {
-		matrix[i].resize(y);
-
-		for (int j = 0; j < matrix[i].size(); j++)
-			matrix[i][j] = getPixel(wxPoint(i, j));
-
-	}
 	for (int i = 0; i < matrix.size(); i++) {
 		for (int j = 0; j < matrix[i].size(); j++) {
 			int value = 0;
