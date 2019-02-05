@@ -295,7 +295,7 @@ wxString MainWindow::getNewImageName(wxString oldName){
 	wxString name, version, ext, result;
 	int v = 0;
 
-	wxRegEx expresion(string("(.*?)([-](\\d+))?[.](.*)$"), wxRE_ICASE | wxRE_ADVANCED);	//0: todo, 1: nombre, 3: versión, 4: extensión
+	wxRegEx expresion(std::string("(.*?)([-](\\d+))?[.](.*)$"), wxRE_ICASE | wxRE_ADVANCED);	//0: todo, 1: nombre, 3: versión, 4: extensión
 	if (expresion.IsValid() && expresion.Matches(oldName)) {
 		name = expresion.GetMatch(oldName, 1);
 		version = expresion.GetMatch(oldName, 3);
@@ -309,7 +309,7 @@ wxString MainWindow::getNewImageName(wxString oldName){
 		}
 		v++;
 
-		result = name + "-" + to_string(v) + "." + ext;
+		result = name + "-" + std::to_string(v) + "." + ext;
 
 		return result;
 	}
@@ -619,7 +619,7 @@ void MainWindow::OnMenuProcesarTLineal(wxCommandEvent & event) {
 
 		TLinealDialog pointsDialog(lastFocus, segments);
 		if (pointsDialog.ShowModal() == wxID_OK) {
-			vector<wxPoint> points = pointsDialog.getPoints();
+			std::vector<wxPoint> points = pointsDialog.getPoints();
 			lastFocus->computeLinealTranformation(points);
 			lastFocus->Raise();
 		}
@@ -757,7 +757,7 @@ void MainWindow::OnMenuProcesarFiltrosConvolucion(wxCommandEvent & event){
 	ConvolutionDialog dialog;
 	if(dialog.ShowModal()){
 
-		vector<vector<long>> kernel = dialog.getKernel();
+		std::vector<std::vector<long>> kernel = dialog.getKernel();
 
 		/*vector<vector<long>> kernel;
 		kernel.resize(3);

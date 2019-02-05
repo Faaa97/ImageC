@@ -94,12 +94,12 @@ void RawImage::setPixel(wxPoint position, unsigned char value){
 
 }
 
-vector<vector<unsigned char>> RawImage::getImageCopy(){
+std::vector<std::vector<unsigned char>> RawImage::getImageCopy(){
 
 	int x = imgSize.GetX();
 	int y = imgSize.GetY();
 
-	vector<vector<unsigned char>> matrix;
+	std::vector<std::vector<unsigned char>> matrix;
 
 	matrix.resize(x);
 
@@ -114,7 +114,7 @@ vector<vector<unsigned char>> RawImage::getImageCopy(){
 	return matrix;
 }
 
-wxRealPoint RawImage::maxPoint(const vector<wxRealPoint>& points){
+wxRealPoint RawImage::maxPoint(const std::vector<wxRealPoint>& points){
 	double maxX = points[0].x;
 	double maxY = points[0].y;
 
@@ -129,7 +129,7 @@ wxRealPoint RawImage::maxPoint(const vector<wxRealPoint>& points){
 	return wxRealPoint(maxX, maxY);
 }
 
-wxRealPoint RawImage::minPoint(const vector<wxRealPoint>& points){
+wxRealPoint RawImage::minPoint(const std::vector<wxRealPoint>& points){
 	double minX = points[0].x;
 	double minY = points[0].y;
 
@@ -247,7 +247,7 @@ long* RawImage::computeHistogram(unsigned t){
 	}
 }
 
-void RawImage::computeLinealTranformation(vector<wxPoint> points){
+void RawImage::computeLinealTranformation(std::vector<wxPoint> points){
 
 	LookUpTable table(points);
 
@@ -331,7 +331,7 @@ void RawImage::compute90Rotation(int direction){
 
 void RawImage::computeFlip(int direction){
 
-	vector<vector<unsigned char>> matrix = getImageCopy();
+	std::vector<std::vector<unsigned char>> matrix = getImageCopy();
 
 	if (direction == VERTICAL) {
 		for (int i = 0; i < matrix.size(); i++) {
@@ -355,7 +355,7 @@ void RawImage::computeFlip(int direction){
 
 void RawImage::computeTranspose(){
 
-	vector<vector<unsigned char>> matrix = getImageCopy();
+	std::vector<std::vector<unsigned char>> matrix = getImageCopy();
 
 	imgSize.Set(imgSize.GetY(), imgSize.GetX());
 
@@ -377,7 +377,7 @@ void RawImage::computeScaling(double proportion, int interpolation){
 	int newX = floor(x * proportion);
 	int newY = floor(y * proportion);
 
-	vector<vector<unsigned char>> matrix = getImageCopy();
+	std::vector<std::vector<unsigned char>> matrix = getImageCopy();
 
 	imgSize.Set(newX, newY);
 	int dataSize = newX * newY * 3;
@@ -412,8 +412,8 @@ void RawImage::computeScaling(double proportion, int interpolation){
 				int t = floor(indiceX);
 				int v = floor(indiceY);
 
-				int t2 = min(t + 1, x - 1);
-				int v2 = min(v + 1, y - 1);
+				int t2 = std::min(t + 1, x - 1);
+				int v2 = std::min(v + 1, y - 1);
 
 				int A = matrix[t][v2];
 				int B = matrix[t2][v2];
@@ -444,19 +444,19 @@ void RawImage::computeRotation(double angle, int rotMethod, int interMethod){
 	int x = imgSize.GetX();	//Tamaño x de la imagen original
 	int y = imgSize.GetY();	//Tamaño y de la imagen original
 
-	vector<vector<unsigned char>> matrix = getImageCopy();
+	std::vector<std::vector<unsigned char>> matrix = getImageCopy();
 
 	/*		A - - - - - - - B -> Each point is a corner
 	 *		|	  Image		|
 	 *		C -	- - - - - - D	*/
 
-	vector<wxPoint> points;	//Los puntos que conforman las 4 esquinas de la imagen original.
+	std::vector<wxPoint> points;	//Los puntos que conforman las 4 esquinas de la imagen original.
 	points.push_back(wxPoint(0, 0));		//A
 	points.push_back(wxPoint(x - 1, 0));	//B
 	points.push_back(wxPoint(0, y - 1));	//C
 	points.push_back(wxPoint(x - 1, y - 1));//D
 
-	vector<wxRealPoint> rotatedPoints;	//points, rotados angle grados (imagen original)
+	std::vector<wxRealPoint> rotatedPoints;	//points, rotados angle grados (imagen original)
 
 	for (int i = 0; i < points.size(); i++) {
 		wxRealPoint rotated = rotatePointFromAxis(points[i], angle);
@@ -502,8 +502,8 @@ void RawImage::computeRotation(double angle, int rotMethod, int interMethod){
 					else {
 						
 
-						int indiceX = min((int)round(rotated.x), x - 1);// -minp.x;
-						int indiceY = min((int)round(rotated.y), y - 1);// -minp.y;
+						int indiceX = std::min((int)round(rotated.x), x - 1);// -minp.x;
+						int indiceY = std::min((int)round(rotated.y), y - 1);// -minp.y;
 
 						setPixel(point, matrix[indiceX][indiceY]);
 
@@ -527,8 +527,8 @@ void RawImage::computeRotation(double angle, int rotMethod, int interMethod){
 						int t = floor(rotated.x);
 						int v = floor(rotated.y);
 
-						int t2 = min(t + 1, x - 1);
-						int v2 = min(v + 1, y - 1);
+						int t2 = std::min(t + 1, x - 1);
+						int v2 = std::min(v + 1, y - 1);
 
 						int A = matrix[t][v2];
 						int B = matrix[t2][v2];
@@ -555,7 +555,7 @@ void RawImage::computeRotation(double angle, int rotMethod, int interMethod){
 	resetHistogram();
 }
 
-void RawImage::computeConvolution(vector<vector<long>> kernel){
+void RawImage::computeConvolution(std::vector<std::vector<long>> kernel){
 	int x = imgSize.GetX();	//Tamaño x de la imagen original
 	int y = imgSize.GetY();	//Tamaño y de la imagen original
 
@@ -569,7 +569,7 @@ void RawImage::computeConvolution(vector<vector<long>> kernel){
 
 	double s = double(1) / double(kSum);
 
-	vector<vector<unsigned char>> matrix = getImageCopy();
+	std::vector<std::vector<unsigned char>> matrix = getImageCopy();
 
 	for (int i = 0; i < matrix.size(); i++) {
 		for (int j = 0; j < matrix[i].size(); j++) {

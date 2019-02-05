@@ -91,8 +91,8 @@ void ImagePanel::OnMouseMoved(wxMouseEvent & event) {
 	wxString pos = "Position: (";
 	wxString value = "Value: ";
 
-	parent->SetStatusText(pos + to_string(mouseX) + ", " + to_string(mouseY) + ")", 1);
-	parent->SetStatusText(value + to_string(image->getPixel(p)), 2);
+	parent->SetStatusText(pos + std::to_string(mouseX) + ", " + std::to_string(mouseY) + ")", 1);
+	parent->SetStatusText(value + std::to_string(image->getPixel(p)), 2);
 }
 
 /*
@@ -132,7 +132,7 @@ long* ImagePanel::computeHistogram(unsigned type){
 	return image->computeHistogram(type);
 }
 
-void ImagePanel::computeLinealTranformation(vector<wxPoint> points){
+void ImagePanel::computeLinealTranformation(std::vector<wxPoint> points){
 	image->computeLinealTranformation(points);
 }
 
@@ -184,7 +184,7 @@ void ImagePanel::computeRotation(double angle, int rotMethod, int interMethod){
 	this->SetSize(image->GetSize());
 }
 
-void ImagePanel::computeConvolution(vector<vector<long>> kernel){
+void ImagePanel::computeConvolution(std::vector<std::vector<long>> kernel){
 	image->computeConvolution(kernel);
 }
 

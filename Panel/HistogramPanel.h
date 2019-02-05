@@ -17,8 +17,6 @@
 #pragma once
 #include <wx/wx.h>
 
-using namespace std;
-
 class HistogramPanel : public wxPanel{
 
 public:

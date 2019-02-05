@@ -38,8 +38,6 @@ enum {
 	METODO_ROTACION_MEJORADO
 };
 
-using namespace std;
-
 class RawImage{
 
 	wxSize imgSize;
@@ -56,10 +54,10 @@ class RawImage{
 	void computeWithLUT(const LookUpTable& table);
 	void resetHistogram();
 	void setPixel(wxPoint position, unsigned char value);
-	vector<vector<unsigned char>> getImageCopy();
+	std::vector<std::vector<unsigned char>> getImageCopy();
 
-	wxRealPoint maxPoint(const vector<wxRealPoint>& points);
-	wxRealPoint minPoint(const vector<wxRealPoint>& points);
+	wxRealPoint maxPoint(const std::vector<wxRealPoint>& points);
+	wxRealPoint minPoint(const std::vector<wxRealPoint>& points);
 	wxRealPoint rotatePointFromAxis(wxPoint p, double angle);
 	wxRealPoint rotatePointIT(wxPoint p, double angle);
 	wxRealPoint translatePoint(wxRealPoint main, wxRealPoint vector);
@@ -73,7 +71,7 @@ public:
 
 	void convertToGrayScale(unsigned type);
 	long* computeHistogram(unsigned type = H_ABSOLUTE);
-	void computeLinealTranformation(vector<wxPoint> points);
+	void computeLinealTranformation(std::vector<wxPoint> points);
 	void computeNewBrightnessAndContrast(unsigned newBrightness, unsigned newContrast);
 	void computeHistogramEspecification(RawImage* original, RawImage* target);
 	void computeEqualization();
@@ -85,7 +83,7 @@ public:
 	void computeTranspose();
 	void computeScaling(double proportion, int interpolation);
 	void computeRotation(double angle, int rotMethod, int interMethod);
-	void computeConvolution(vector<vector<long>> kernel);
+	void computeConvolution(std::vector<std::vector<long>> kernel);
 
 	wxSize getSize();
 	unsigned char* getData();

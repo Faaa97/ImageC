@@ -63,7 +63,7 @@ ConvolutionDialog::~ConvolutionDialog(){
 
 }
 
-vector<vector<long>> ConvolutionDialog::getKernel(){
+std::vector<std::vector<long>> ConvolutionDialog::getKernel(){
 
 	if (!computed) {
 
@@ -74,9 +74,9 @@ vector<vector<long>> ConvolutionDialog::getKernel(){
 		for (int i = 0; i < kernel.size(); i++) {
 			wxString text = input->GetLineText(i);
 
-			stringstream ss(text.ToStdString());
+			std::stringstream ss(text.ToStdString());
 
-			vector<long> kernelRow;
+			std::vector<long> kernelRow;
 
 			while (ss.good()) {
 				long number = 0;

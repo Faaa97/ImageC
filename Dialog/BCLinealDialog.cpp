@@ -33,8 +33,8 @@ BCLinealDialog::BCLinealDialog(ImageFrame* t)
 	actual->Add(new wxStaticText(this, wxID_ANY, "Actual:"), 0, wxLEFT, 0);
 	nuevo->Add(new wxStaticText(this, wxID_ANY, "Nuevo:"), 0, wxLEFT, 0);
 
-	wxString b = to_string(target->getBrightness());	//Brillo
-	wxString c = to_string(target->getContrast());	//Contraste
+	wxString b = std::to_string(target->getBrightness());	//Brillo
+	wxString c = std::to_string(target->getContrast());	//Contraste
 
 	wxTextCtrl* brilloCtrl = new wxTextCtrl(this, wxID_ANY, b, wxDefaultPosition);
 	wxTextCtrl* contrasteCtrl = new wxTextCtrl(this, wxID_ANY, c, wxDefaultPosition);

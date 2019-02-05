@@ -17,7 +17,6 @@
 #pragma once
 #include <wx/wx.h>
 #include "../Tools/RawImage.h"
-using namespace std;
 
 //UNDONE: Mejorar UX 
 class ScaleDialog : public wxDialog {

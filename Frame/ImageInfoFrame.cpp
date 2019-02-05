@@ -30,9 +30,9 @@ ImageInfoFrame::ImageInfoFrame(ImageFrame* parent) :
 
 	wxString file = parent->getExt();
 	wxSize s = parent->getImageSize();
-	wxString size = to_string(s.GetX()) + "x" + to_string(s.GetY());
-	wxString brightness = to_string(parent->getBrightness());
-	wxString contrast = to_string(parent->getContrast());
+	wxString size = std::to_string(s.GetX()) + "x" + std::to_string(s.GetY());
+	wxString brightness = std::to_string(parent->getBrightness());
+	wxString contrast = std::to_string(parent->getContrast());
 	//wxString entropy = "4";
 
 	wxBoxSizer* sizer2 = new wxBoxSizer(wxVERTICAL);

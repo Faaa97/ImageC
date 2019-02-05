@@ -120,7 +120,7 @@ long* ImageFrame::computeHistogram(unsigned type){
 	return imgPanel->computeHistogram(type);
 }
 
-void ImageFrame::computeLinealTranformation(vector<wxPoint> points){
+void ImageFrame::computeLinealTranformation(std::vector<wxPoint> points){
 	imgPanel->computeLinealTranformation(points);
 	modified = true;
 	this->Refresh();
@@ -200,7 +200,7 @@ void ImageFrame::computeRotation(double angle, int rotMethod, int interMethod){
 	this->Refresh();
 }
 
-void ImageFrame::computeConvolution(vector<vector<long>> kernel){
+void ImageFrame::computeConvolution(std::vector<std::vector<long>> kernel){
 	imgPanel->computeConvolution(kernel);
 	modified = true;
 	this->Refresh();
@@ -225,7 +225,7 @@ void ImageFrame::updateStatusText(){
 }
 
 wxString ImageFrame::getExt(wxString filename) {
-	wxString extension = getExpresion(filename, string(".*[.](.*)"));
+	wxString extension = getExpresion(filename, std::string(".*[.](.*)"));
 	return extension;
 }
 
@@ -251,7 +251,7 @@ void ImageFrame::onSetFocus(wxFocusEvent & event){
 
 wxBitmapType ImageFrame::getType(wxString filename){
 	
-	wxString ext = getExpresion(filename, string(".*[.](.*)"));
+	wxString ext = getExpresion(filename, std::string(".*[.](.*)"));
 
 	if (ext == "tiff") {
 		return wxBITMAP_TYPE_TIFF;

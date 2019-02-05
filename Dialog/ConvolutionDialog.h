@@ -19,12 +19,11 @@
 #include "../Frame/ImageFrame.h"
 #include <vector>
 #include <sstream>
-using namespace std;
 
 class ConvolutionDialog : public wxDialog {
 
 	wxTextCtrl* input;
-	vector<vector<long>> kernel;
+	std::vector<std::vector<long>> kernel;
 
 	bool computed;
 
@@ -32,7 +31,7 @@ public:
 	ConvolutionDialog();
 	~ConvolutionDialog();
 	
-	vector<vector<long>> getKernel();
+	std::vector<std::vector<long>> getKernel();
 
 private:
 

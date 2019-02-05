@@ -119,7 +119,7 @@ long* Image::computeHistogram(unsigned type){
 	return rawImg->computeHistogram(type);
 }
 
-void Image::computeLinealTranformation(vector<wxPoint> points){
+void Image::computeLinealTranformation(std::vector<wxPoint> points){
 	rawImg->computeLinealTranformation(points);
 
 	refreshBitmap();
@@ -196,7 +196,7 @@ void Image::computeRotation(double angle, int rotMethod, int interMethod){
 	refreshBitmap();
 }
 
-void Image::computeConvolution(vector<vector<long>> kernel){
+void Image::computeConvolution(std::vector<std::vector<long>> kernel){
 	rawImg->computeConvolution(kernel);
 
 	refreshBitmap();

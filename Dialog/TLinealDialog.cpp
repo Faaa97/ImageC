@@ -94,9 +94,9 @@ TLinealDialog::~TLinealDialog(){
 
 }
 
-vector<wxPoint> TLinealDialog::getPoints(){
+std::vector<wxPoint> TLinealDialog::getPoints(){
 
-	vector<wxPoint> result;
+	std::vector<wxPoint> result;
 
 	for (int i = 0; i < pointsNo; i++) {
 		wxString x;

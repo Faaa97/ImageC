@@ -64,7 +64,7 @@ LookUpTable::LookUpTable(long* original, long* target){
 	}
 }
 
-LookUpTable::LookUpTable(vector<wxPoint> points){
+LookUpTable::LookUpTable(std::vector<wxPoint> points){
 
 	reset();
 
@@ -89,7 +89,7 @@ LookUpTable::LookUpTable(long* acc, int size){
 	reset();
 
 	for (int i = 0; i < 256; i++) {
-		table[i] = max(double(0), round(double(256) / double(size) * double(acc[i])) - 1);
+		table[i] = std::max(double(0), round(double(256) / double(size) * double(acc[i])) - 1);
 	}
 }
 

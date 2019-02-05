@@ -19,13 +19,11 @@
 #include <wx\wx.h>
 #include <algorithm>
 
-using namespace std;
-
 class RawImage;
 
 class LookUpTable {
 
-	vector<unsigned char> table;
+	std::vector<unsigned char> table;
 
 	void reset();
 
@@ -35,7 +33,7 @@ public:
 	LookUpTable(const LookUpTable& t);			//Constructor copia
 	LookUpTable(double a, double b);			//Valores A y B para el ajuste lineal del brillo
 	LookUpTable(long* original, long* target);	//Especificación del histograma
-	LookUpTable(vector<wxPoint> points);		//Ajuste lineal por tramos
+	LookUpTable(std::vector<wxPoint> points);		//Ajuste lineal por tramos
 	LookUpTable(long* acc, int size);			//Ecualizar
 	LookUpTable(long* hist, double gamma);		//Corrección gamma
 	LookUpTable(unsigned char t);				//Umbralizado

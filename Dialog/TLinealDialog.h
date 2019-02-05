@@ -19,12 +19,10 @@
 #include "../Frame/ImageFrame.h"
 #include <vector>
 
-using namespace std;
-
 class TLinealDialog : public wxDialog {
 
-	vector<wxTextCtrl*> segmentsX;
-	vector<wxTextCtrl*> segmentsY;
+	std::vector<wxTextCtrl*> segmentsX;
+	std::vector<wxTextCtrl*> segmentsY;
 	ImageFrame* target;
 
 	int pointsNo;
@@ -33,7 +31,7 @@ public:
 	TLinealDialog(ImageFrame* t, int s);
 	~TLinealDialog();
 
-	vector<wxPoint> getPoints();
+	std::vector<wxPoint> getPoints();
 
 private:
 

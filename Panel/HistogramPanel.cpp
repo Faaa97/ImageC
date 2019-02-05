@@ -98,13 +98,13 @@ void HistogramPanel::updateStatusText(int mousex) {
 	wxString value = "Value: ";
 	wxString count = "Count: ";
 
-	parent->SetStatusText(min + to_string(dataMin), 0);
-	parent->SetStatusText(max + to_string(dataMax), 1);
-	parent->SetStatusText(value + to_string(v), 2);
+	parent->SetStatusText(min + std::to_string(dataMin), 0);
+	parent->SetStatusText(max + std::to_string(dataMax), 1);
+	parent->SetStatusText(value + std::to_string(v), 2);
 	if (!acc) {
-		parent->SetStatusText(count + to_string(data_abs[v]), 3);
+		parent->SetStatusText(count + std::to_string(data_abs[v]), 3);
 	} else {
-		parent->SetStatusText(count + to_string(data_acc[v]), 3);
+		parent->SetStatusText(count + std::to_string(data_acc[v]), 3);
 	}
 }
 

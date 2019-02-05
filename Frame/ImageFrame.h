@@ -59,7 +59,7 @@ public:
 	//RawImage
 	void convertToGrayScale(unsigned type);
 	long* computeHistogram(unsigned type);
-	void computeLinealTranformation(vector<wxPoint> points);
+	void computeLinealTranformation(std::vector<wxPoint> points);
 	void computeNewBrightnessAndContrast(unsigned newBrightness, unsigned contrast);
 	void computeHistogramEspecification(ImageFrame* original, ImageFrame* target);
 	void computeEqualization();
@@ -72,7 +72,7 @@ public:
 	void computeTranspose();
 	void computeScaling(double proportion, int interpolation);
 	void computeRotation(double angle, int rotMethod, int interMethod);
-	void computeConvolution(vector<vector<long>> kernel);
+	void computeConvolution(std::vector<std::vector<long>> kernel);
 
 	unsigned char getBrightness();
 	unsigned char getContrast();
